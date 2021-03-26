@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import Search from './search';
 
 class Gif extends Component {
-  buildGifSrc () {
-    return `https://media2.giphy.com/media/${this.props.id}/giphy.gif`;
+  handleClick = (event) => {
+    this.props.selectFunction(this.props.id);
   }
 
   render() {
-    return <img className="gif" src={this.buildGifSrc()} alt="" />;
+    const src = `https://media2.giphy.com/media/${this.props.id}/giphy.gif`;
+    return (
+      <img className="gif" src={src} alt="" onClick={this.handleClick} />
+    )
   }
 }
 

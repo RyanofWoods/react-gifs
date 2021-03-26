@@ -1,8 +1,9 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import giphy from 'giphy-api';
 
-import Search from './search';
+import Searchbar from './searchbar';
 import Gif from './gif';
 import GifList from './gif-list';
 
@@ -11,33 +12,42 @@ class App extends Component {
     super(props);
 
     this.state = {
-      selected: "yFQ0ywscgobJK",
+      selectedGif: "yFQ0ywscgobJK",
       gifs: [],
     };
-    this.searchInput('homer simpson');
+
+    this.searchInput("homer");
   }
 
   searchInput = (query) => {
     giphy('Ao9T4FFJAwLdlvb12cJLFmDeFrRary9K').search({
-      q: { query },
+      q: query,
       rating: 'g',
       limit: 10
     }, (_err, res) => {
-      this.setState({ gifs: res.data.map(data => data.id) });
+      this.setState({
+        gifs: res.data
+      });
     });
   };
+
+  updateSelectedGif = (id) => {
+    this.setState({
+      selectedGif: id,
+    });
+  }
 
   render () {
     return (
       <div>
         <div className="left-scene">
-          <Search onChange={this.searchInput} />
+          <Searchbar searchFunction={this.searchInput} />
           <div className="selected-gif">
-            <Gif id={ this.state.selected } />
+            <Gif id={this.state.selectedGif} />
           </div>
         </div>
         <div className="right-scene">
-          <GifList gifs={ this.state.gifs }></GifList>
+          <GifList selectFunction={this.updateSelectedGif} gifs={this.state.gifs} />
         </div>
       </div>
     );
