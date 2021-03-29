@@ -2,7 +2,6 @@ import React from 'react';
 import Gif from './gif';
 
 const GifList = ({ gifs, selectFunction }) => {
-
   return (
     <div className="gif-list">
       {
